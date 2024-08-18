@@ -53,14 +53,14 @@ const CompanyReviews = () => {
           <div className="flex items-center w-full tablet:w-3/5 laptop:w-2/4 relative ">
             <input
               type="text"
-              className="border border-b-2 border-[#2557A7] h-10 rounded-md w-[96%] tablet:w-[60%] tablet:ml-4"
+              className="border border-b-2 border-[#2557A7] h-10 rounded-md w-[96%] "
             />
             <IoMdSearch
               size={25}
               className="text-gray-400 absolute left-[88%] top-2.5"
             />
           </div>
-          <button className="bg-[#2557A7] mr-4 w-full tablet:w-1/4 h-10 text-white font-medium rounded-md mt-4 tablet:mt-0 tablet:w-[40%] tablet:ml-4">
+          <button className="bg-[#2557A7] mr-4 w-full tablet:w-1/4 h-10 text-white font-medium rounded-md mt-4 tablet:mt-0 ">
             Find Companies
           </button>
         </div>
