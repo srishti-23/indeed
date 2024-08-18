@@ -132,11 +132,12 @@ const Nav = () => {
             to="/profile"
             className="list-none mx-auto my-4"
             onClick={() => setNav(false)}
+         
           >
             Profile
           </NavLink>
           <NavLink
-            to="/myJobs"
+            to="/bookmark"
             className="list-none mx-auto my-4"
             onClick={() => setNav(false)}
           >
