@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "vite",        // For development
+    "start": "vite",        
     "dev": "vite",
-    "build": "vite build",  // For production build
+    "build": "vite build",  
     "lint": "eslint .",
-    "preview": "vite preview"  // For production preview
+    "preview": "vite preview"  
   },
   "dependencies": {
     "firebase": "^10.12.5",
