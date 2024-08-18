@@ -100,7 +100,7 @@ function Home() {
         {/* Job Listings Section */}
         <div className="w-full laptop:w-7/12 laptop:ml-4">
           {activeTab === "feed" && (
-            <div className="w-[86%] laptop:max-w-md ml-16 laptop:ml-0">
+            <div className="w-[86%] laptop:max-w-md ml-10 laptop:ml-0">
               {(searchResults.length > 0 ? searchResults : jobs).map(
                 (job, index) => (
                   <div
