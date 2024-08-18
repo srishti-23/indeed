@@ -1,0 +1,11 @@
+.social-btn {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    /* background-color: #f8f9fa; */
+  }

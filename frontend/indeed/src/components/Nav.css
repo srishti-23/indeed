@@ -1,0 +1,57 @@
+.hover-underline {
+    position: relative; /* Positioning relative to itself */
+    cursor: pointer;
+    display: inline-block; /* Ensure the element only takes up as much width as its content */
+}
+
+.hover-underline::after {
+    content: '';
+    display: block;
+    position: absolute; /* Positioning absolutely to the .hover-underline element */
+    left: 0;
+    /* Adjust this value if you need the line closer or farther from the text */
+    width: 0; /* Start with no width */
+    height: 3px; 
+    margin-top: 29px;
+    background: #164081; 
+    
+}
+
+.hover-underline:hover::after {
+    width: 100%; 
+    /* Expand underline to full width of the text */
+}
+
+@media (min-width: 900px) {
+  .hamburger-icon {
+    display: none;
+  }
+  .desktop-nav {
+    display: block;
+  }
+}
+
+@media (max-width: 899px) {
+  .hamburger-icon {
+    display: block;
+  }
+  .desktop-nav {
+    display: none;
+  }
+  .mobile-nav{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background-color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+    z-index: 20;
+  }
+}
+
+  

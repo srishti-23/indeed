@@ -1,0 +1,26 @@
+@media (max-width: 800px) {
+    .home-container {
+      flex-direction: column; /* Stack items vertically on smaller screens */
+    }
+  
+    .job-listing {
+      width: 100%; /* Make job listing take full width */
+      margin-left: 0; /* Remove left margin */
+    }
+  
+    .job-details {
+      width: 100%; /* Make job details take full width */
+      margin-top: 20px; /* Add some spacing between job listing and details */
+    }
+  
+    .tab-buttons {
+      flex-direction: column; /* Stack the tab buttons vertically */
+      align-items: center; /* Center align the buttons */
+    }
+  
+    .tab-button {
+      width: 100%; /* Make tab buttons take full width */
+      text-align: center; /* Center text in buttons */
+    }
+  }
+  
