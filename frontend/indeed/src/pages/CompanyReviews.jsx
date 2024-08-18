@@ -53,7 +53,7 @@ const CompanyReviews = () => {
           <div className="flex items-center w-full tablet:w-3/5 laptop:w-2/4 relative ">
             <input
               type="text"
-              className="border border-b-2 border-[#2557A7] h-10 rounded-md w-[96%] "
+              className="border border-b-4 border-[#2557A7] h-10 rounded-md w-[96%] outline-none "
             />
             <IoMdSearch
               size={25}
