@@ -49,7 +49,7 @@ const CompanyReviews = () => {
         <h4 className="text-lg tablet:text-xl font-medium mt-6 tablet:mt-8 text-[#2D2D2D] ml-16 tablet:ml-4">
           Company name or job title
         </h4>
-        <div className="flex flex-col tablet:flex-row items-center justify-center w-full mt-4 laptop:ml-[-7%] ">
+        <div className="flex flex-col tablet:flex-row items-center justify-center w-full mt-4 laptop:ml-[-7%] tablet:ml-4">
           <div className="flex items-center w-full tablet:w-3/5 laptop:w-2/4 relative ">
             <input
               type="text"
