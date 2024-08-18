@@ -44,8 +44,8 @@ const SearchBar = ({ onSearchResults }) => {
 
   return (
     <>
-      <div className="flex flex-col tablet:flex-row items-center mb-4 border border-gray-500 rounded-md overflow-hidden shadow-md  w-full max-w-4xl mt-[-7%]">
-        <div className="relative w-full tablet:w-auto flex-grow">
+      <div className="flex flex-col tablet:flex-row items-center mb-4 laptop:border laptop:border-gray-500 rounded-md overflow-hidden shadow-md  w-full max-w-4xl mt-[-7%]">
+        <div className="relative w-full tablet:w-auto flex-grow laptop:border-none tablet:border tablet:border-gray-500 ">
           <IoMdSearch
             size={24}
             className="absolute left-4 top-1.5 text-gray-800 mt-1"
@@ -59,10 +59,10 @@ const SearchBar = ({ onSearchResults }) => {
             className="p-2 outline-none pl-14 w-full tablet:w-70 border-b tablet:border-b-0 tablet:border-r border-gray-200 mt-1 text-base text-gray-1000"
           />
         </div>
-        <div className="relative w-auto tablet:w-auto flex-grow">
+        <div className="relative w-full tablet:w-auto flex-grow ">
           <FaLocationDot
             size={22}
-            className="absolute left-3 top-1.2 text-gray-800 mt-2"
+            className="absolute left-4 top-1.5 text-gray-800 mt-1"
           />
           <input
             type="text"
@@ -70,7 +70,7 @@ const SearchBar = ({ onSearchResults }) => {
             onChange={(e) => setLocQuery(e.target.value)}
             onKeyDown={handleKeyPress}
             placeholder="City, state, zip code, or 'remote'"
-            className="p-2 pl-14 w-full md:w-70 mt-1 text-base text-gray-1000 outline-none"
+            className="p-2 pl-14 w-full tablet:w-full mt-1 text-base text-gray-1000 outline-none ml-0"
           />
         </div>
         <button
