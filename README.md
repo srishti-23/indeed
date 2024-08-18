@@ -4,7 +4,7 @@ This is a project that aims to create a clone of indeed
 
 ## Deployment
 
-[Click Here]() to see my glassdoor website.
+
 
 
 ## Tech Stack
