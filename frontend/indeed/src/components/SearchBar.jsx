@@ -16,7 +16,7 @@ const SearchBar = ({ onSearchResults }) => {
    
     setLoading(true);
     setError(null);
-    const url = `http://api.adzuna.com/v1/api/jobs/gb/search/1?app_id=7ba37328&app_key=5cd06c669e15639b874c09749126949e&results_per_page=20&what=${encodeURIComponent(
+    const url = `https://api.adzuna.com/v1/api/jobs/gb/search/1?app_id=7ba37328&app_key=5cd06c669e15639b874c09749126949e&results_per_page=20&what=${encodeURIComponent(
       query+locQuery
     )}&content-type=application/json`;//url for the api
 
