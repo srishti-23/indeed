@@ -40,16 +40,16 @@ const CompanyReviews = () => {
   return (
     <>
       <div className="max-w-screen-lg mx-auto px-4 laptop:px-8">
-        <h1 className="text-3xl tablet:text-4xl laptop:text-5xl font-bold text-[#2D2D2D] mt-12 tablet:mt-20 ml-16 tablet:ml-4">
+        <h1 className="text-3xl laptop:text-4xl lg:text-5xl font-bold text-[#2D2D2D] mt-12 laptop:mt-20 laptop:ml-16 ml-4">
           Find great places to work
         </h1>
-        <h4 className="text-gray-500 mt-6 tablet:mt-8 text-lg tablet:text-xl ml-16 tablet:ml-4">
+        <h4 className="text-gray-500 mt-6 laptop:mt-8 text-lg laptop:text-xl laptop:ml-16 ml-4">
           Get access to millions of company reviews
         </h4>
-        <h4 className="text-lg tablet:text-xl font-medium mt-6 tablet:mt-8 text-[#2D2D2D] ml-16 tablet:ml-4">
+        <h4 className="text-lg laptop:text-xl font-medium mt-6 laptop:mt-8 text-[#2D2D2D] laptop:ml-16 ml-4">
           Company name or job title
         </h4>
-        <div className="flex flex-col tablet:flex-row items-center justify-center w-full mt-4 laptop:ml-[-7%] ">
+        <div className="flex flex-col tablet:flex-row items-center justify-center w-full mt-4 laptop:ml-[-7%] ml-4">
           <div className="flex items-center w-full tablet:w-3/5 laptop:w-2/4 relative ">
             <input
               type="text"
@@ -60,16 +60,16 @@ const CompanyReviews = () => {
               className="text-gray-400 absolute left-[88%] top-2.5"
             />
           </div>
-          <button className="bg-[#2557A7] mr-4 w-full tablet:w-1/4 h-10 text-white font-medium rounded-md mt-4 tablet:mt-0 ">
+          <button className="bg-[#2557A7] mr-4 w-full tablet:w-1/4 h-10 text-white font-medium rounded-md mt-4 tablet:mt-0">
             Find Companies
           </button>
         </div>
-        <p className="mt-2 underline text-[#2557A7] cursor-pointer ml-16 sm:ml-4">
+        <p className="mt-2 underline text-[#2557A7] cursor-pointer laptop:ml-16 ml-4">
           Do you want to search for salaries?
         </p>
 
         <div className="mt-8">
-          <h1 className="text-2xl md:text-3xl font-bold ml-16 sm:ml-4">
+          <h1 className="text-2xl md:text-3xl font-bold laptop:ml-16 ml-4">
             Popular Companies
           </h1>
 
@@ -81,14 +81,14 @@ const CompanyReviews = () => {
           )}
 
           {!loading && !error && (
-            <div className="grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-4 mt-4 ml-16 sm:ml-4">
+            <div className="grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-4 mt-4 laptop:ml-16 ml-4">
               {companies.map((company, index) => (
                 <div
                   key={index}
                   onClick={() => handleCompanyClick(company)}
                   className="bg-white p-4 border border-gray-200 rounded-lg shadow-sm mb-4 cursor-pointer"
                 >
-                  <h2 className="text-md md:text-lg font-bold text-gray-800">
+                  <h2 className="text-md tablet:text-lg font-bold text-gray-800">
                     {company.canonical_name || "Unknown Company"}
                   </h2>
                   <div className="flex p-2">
@@ -96,11 +96,11 @@ const CompanyReviews = () => {
                     <FaStar style={{ color: "#facc15" }} />
                     <FaStar style={{ color: "#facc15" }} />
                     <FaStar style={{ color: "#facc15" }} />
-                    <span className="ml-2 md:ml-auto text-sm md:text-md">
+                    <span className="ml-2 tablet:ml-auto text-sm tablet:text-md">
                       9187 reviews
                     </span>
                   </div>
-                  <div className="text-sm md:text-md font-medium text-gray-800 flex gap-4">
+                  <div className="text-sm tablet:text-md font-medium text-gray-800 flex gap-4">
                     <a
                       href="https://in.indeed.com/cmp/Kpmg-0828bc85/salaries"
                       className="hover:underline"
@@ -125,8 +125,8 @@ const CompanyReviews = () => {
             </div>
           )}
         </div>
-        <div className="w-[80%] md:w-[70%] lg:w-[60%] mx-auto bg-[#F5FBF9] p-4 justify-center font-bold text-md md:text-xl text-gray-800 flex mt-8">
-          <img src={rating} className="w-14 h-14 md:w-20 md:h-20 mr-4" />
+        <div className="w-[80%] tablet:w-[70%] laptop:w-[60%] mx-auto bg-[#F5FBF9] p-4 justify-center font-bold text-md tablet:text-xl text-gray-800 flex mt-8">
+          <img src={rating} className="w-14 h-14 tablet:w-20 tablet:h-20 mr-4" />
           Rate your recent employer :
           <div className="bg-white w-24 h-8 flex p-2 ml-4">
             <FaStar className="text-blue hover:text-[#3730a3] mx-auto my-auto" />
