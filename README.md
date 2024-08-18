@@ -3,7 +3,7 @@
 This is a project that aims to create a clone of indeed
 
 ## Deployment
-
+https://indeedproject.netlify.app/
 
 
 
