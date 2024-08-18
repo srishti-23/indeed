@@ -39,14 +39,14 @@ const CompanyReviews = () => {
 
   return (
     <>
-      <div className="max-w-screen-lg mx-auto px-4 md:px-8">
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#2D2D2D] mt-12 md:mt-20 ml-16 sm:ml-4">
+      <div className="max-w-screen-lg mx-auto px-4 laptop:px-8">
+        <h1 className="text-3xl tablet:text-4xl laptop:text-5xl font-bold text-[#2D2D2D] mt-12 tablet:mt-20 ml-16 sm:ml-4">
           Find great places to work
         </h1>
-        <h4 className="text-gray-500 mt-6 md:mt-8 text-lg md:text-xl ml-16 sm:ml-4">
+        <h4 className="text-gray-500 mt-6 tablet:mt-8 text-lg tablet:text-xl ml-16 sm:ml-4">
           Get access to millions of company reviews
         </h4>
-        <h4 className="text-lg md:text-xl font-medium mt-6 md:mt-8 text-[#2D2D2D] ml-16 sm:ml-4">
+        <h4 className="text-lg tablet:text-xl font-medium mt-6 tablet:mt-8 text-[#2D2D2D] ml-16 sm:ml-4">
           Company name or job title
         </h4>
         <div className="flex flex-col tablet:flex-row items-center justify-center w-full mt-4 laptop:ml-[-7%] ">
