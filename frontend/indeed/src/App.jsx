@@ -6,7 +6,7 @@ import CompanyReviews from "./pages/CompanyReviews";
 import SalaryGuide from "./pages/SalaryGuide";
 import Footer from "./components/Footer";
 import Signup from "./pages/Signup";
-import Password from "./components/Password";
+import Login from "./components/Login";
 import { AuthProvider } from "./contexts/AuthContext";
 import Bookmark from "./components/Bookmark";
 import Notification from "./pages/Notification";
@@ -25,7 +25,7 @@ const AppContent = () => {
   const location = useLocation();
 
   // Define routes where Header and Footer should not be displayed
-  const noHeaderFooterRoutes = ["/signup", "/password"];
+  const noHeaderFooterRoutes = ["/signup", "/login"];
 
   const shouldShowHeaderFooter = !noHeaderFooterRoutes.includes(location.pathname);
 
@@ -36,7 +36,7 @@ const AppContent = () => {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/password" element={<Password />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/companyReviews" element={<CompanyReviews />} />
         <Route path="/salaryGuide" element={<SalaryGuide />} />
         <Route path="/notification" element={<Notification />} />

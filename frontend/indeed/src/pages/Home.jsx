@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import { BsBookmark, BsSlashCircle } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { BookmarksContext } from "../contexts/BookmarkContext"; // Adjust the path
+import { BookmarksContext } from "../contexts/BookmarkContext";
 import { useAuth } from "../contexts/AuthContext";
-import "./home.css"
-//Initail or front page to be displayed where all jons are shown
+import "./home.css";
 
 function Home() {
   const [jobs, setJobs] = useState([]);
@@ -14,37 +13,56 @@ function Home() {
   const [activeTab, setActiveTab] = useState("feed");
   const [searchResults, setSearchResults] = useState([]);
 
-  const { state, dispatch } = useContext(BookmarksContext); // Accessing the context
+  const { state, dispatch } = useContext(BookmarksContext);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
+  // Fetch initial job listings
   useEffect(() => {
-    fetch(
-      `https://api.adzuna.com/v1/api/jobs/in/search/1?app_id=8e5750cc&app_key=90d93e50598886483511359013314419&results_per_page=30`
-    )
+    fetch(`http://localhost:8080/api/job/details`)
       .then((response) => response.json())
       .then((data) => {
-        setJobs(data.results);
-        setSelectedJob(data.results[0]); // Set the first job as the default selected job to be displayed
+        setJobs(data);
+        setSelectedJob(data[0]); // Set the first job as the default selected job
       })
       .catch((error) => console.error("Error fetching jobs:", error));
   }, []);
 
+  // Handle job selection
   const handleJobClick = (job) => {
     setSelectedJob(job);
   };
 
-  //function To apply for the jobs and checks if the user has signed in or not
-  const handleApplyClick = (redirectUrl) => {
+  // Handle job application
+  const handleApplyClick = async (jobId) => {
     if (!currentUser) {
       alert("You need to sign in to apply for this job.");
       navigate("/signup");
       return;
     }
-    window.open(redirectUrl, "_blank");
+
+    try {
+      const response = await fetch(`http://localhost:8080/api/apply/${jobId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to apply for job");
+      }
+
+      const data = await response.json();
+      alert("You have successfully applied for the job.");
+    } catch (error) {
+      console.error("Error applying for job:", error);
+      alert("Error applying for job. Please try again.");
+    }
   };
 
-  //function to handle the result of job searched by the users
+  // Handle search results
   const handleSearchResults = (results) => {
     setSearchResults(results);
     setActiveTab("feed");
@@ -53,7 +71,7 @@ function Home() {
     }
   };
 
-  //function to manage the state of bookmark icon
+  // Toggle bookmark
   const toggleBookmark = (job) => {
     if (!currentUser) {
       alert("You need to sign in to bookmark job");
@@ -69,9 +87,7 @@ function Home() {
         <SearchBar onSearchResults={handleSearchResults} />
       </div>
 
-      {/* Tabs 
-      2 tabs are shown on this page jobs for you and job search*/}
-
+      {/* Tabs */}
       <div className="flex justify-center border-b border-gray-200 mt-4 mb-8">
         <button
           className={`p-2 px-4 ${
@@ -81,7 +97,7 @@ function Home() {
           }`}
           onClick={() => setActiveTab("feed")}
         >
-          Jobs For you
+          Jobs For You
         </button>
         <button
           className={`p-2 px-4 ${
@@ -111,14 +127,12 @@ function Home() {
                     <h2 className="text-lg font-bold text-gray-800">
                       {job.title}
                     </h2>
-                    <p className="text-sm text-gray-600">
-                      {job.company.display_name}
+                    <p className="text-sm text-gray-600 li-none">
+                      {job.company.name}
                     </p>
-                    <p className="text-sm text-gray-600">
-                      {job.location.display_name}
-                    </p>
-                    <ul className="list-disc list-inside text-sm text-gray-700 mt-2">
-                      {job.description
+                    <p className="text-sm text-gray-600">{job.location}</p>
+                    <ul className="list-none list-inside text-sm text-gray-700 mt-2">
+                      {job.jobDescription
                         .split(". ")
                         .slice(0, 2)
                         .map((desc, i) => (
@@ -126,7 +140,7 @@ function Home() {
                         ))}
                     </ul>
                     <p className="text-xs text-gray-500 mt-4">
-                      Active {job.created}
+                      Active {new Date(job.createdAt).toLocaleDateString()}
                     </p>
                   </div>
                 )
@@ -135,8 +149,7 @@ function Home() {
           )}
         </div>
 
-        {/* Job Details Section 
-        to show the details of the job  */}
+        {/* Job Details Section */}
         <div className="w-full laptop:w-5/12">
           {selectedJob && (
             <div className="bg-white p-4 border border-gray-200 rounded-lg shadow-sm">
@@ -144,25 +157,24 @@ function Home() {
                 {selectedJob.title}
               </h2>
               <p className="underline text-sm text-gray-600">
-                {selectedJob.company.display_name}
+                {selectedJob.company.name}
               </p>
-              <p className="text-sm text-gray-600">
-                {selectedJob.location.display_name}
-              </p>
+              <p className="text-sm text-gray-600">{selectedJob.location}</p>
               <div className="mt-4 flex items-center space-x-2">
                 <button
-                  onClick={() => handleApplyClick(selectedJob.redirect_url)}
+                  onClick={() => handleApplyClick(selectedJob._id)}
                   className="p-2 bg-blue-800 text-white rounded-md"
                 >
                   Apply Now
                 </button>
+
                 <Link to="/bookmark">
                   <button
                     onClick={() => toggleBookmark(selectedJob)}
                     className="p-2 bg-gray-200 text-gray-600 rounded-md"
                   >
                     {state.bookmarks.some(
-                      (bookmark) => bookmark.id === selectedJob.id
+                      (bookmark) => bookmark._id === selectedJob._id
                     ) ? (
                       <BsSlashCircle size={20} />
                     ) : (
@@ -172,10 +184,10 @@ function Home() {
                 </Link>
               </div>
               <p className="text-sm text-gray-700 mt-2">
-                {selectedJob.description}
+                {selectedJob.jobDescription}
               </p>
               <p className="text-xs text-gray-500 mt-4">
-                Active {selectedJob.created}
+                Active {new Date(selectedJob.createdAt).toLocaleDateString()}
               </p>
             </div>
           )}

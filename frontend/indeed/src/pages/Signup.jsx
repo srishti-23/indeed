@@ -1,21 +1,39 @@
 import React, { useState } from "react";
 import logo from "../assets/logo.svg";
-import './signup.css'
+import './signup.css';
 import { useNavigate } from "react-router-dom";
-import { doSignInWithGoogle } from "../firebase/auth.js"
+import { doSignInWithGoogle } from "../firebase/auth.js";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { FcGoogle } from "react-icons/fc";
+import axios from 'axios';
 
 const Signup = () => {
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");  // New state for name
+  const [password, setPassword] = useState("");  // New state for password
   const [signingIn, setSigningIn] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    if (email) {
-      navigate("/password", { state: { email } });
+    if (email && name && password) {  // Check that all fields are filled
+      try {
+        const response = await axios.post("http://localhost:8080/api/user/register", {
+          email,
+          name,  
+          password  
+        });
+
+        if (response.status === 201) {
+          navigate("/login", { state: { email } });
+        }
+      } catch (err) {
+        console.error("Error details:", err.response || err.message || err);
+        setError("Failed to submit the form. Please try again.");
+      }
+    } else {
+      setError("Please fill in all required fields.");
     }
   };
 
@@ -74,11 +92,11 @@ const Signup = () => {
             disabled={signingIn}
             onClick={onGoogleSignIn}
             className="border border-gray-500 mt-2 rounded-md flex social-btn hover:border hover:border-blue-500 hover:bg-[#EEF1FE]"
-          > 
+          >
             <FcGoogle className="icon" />{" "}
             {signingIn ? "Signing In..." : "Continue with Google"}
           </button>
-      
+
           <div style={styles.container}>
             <hr style={styles.line} />
             <span style={styles.text}>Or</span>
@@ -94,23 +112,48 @@ const Signup = () => {
               both WhatsApp and SMS messages.
             </p>
             <form onSubmit={onSubmit}>
-              <input
-                type="text"
-                value={email}
-                className="w-full rounded-md border border-gray-500 mt-2 p-2 hover:border hover:border-b-4 hover:border-blue-800 outline-none"
-                placeholder="youremail@email.com or 9889755607"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <button
-                type="submit"
-                className="relative mt-4 p-2 rounded-md flex w-full p-2 text-white bg-blue-800"
-              >
-                <span className=" mx-auto font-medium">Continue</span>
-                <IoIosArrowRoundForward
-                  size={26}
-                  className="text-white absolute left-64"
-                />
-              </button>
+            <div>
+            <label>Name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full rounded-md border border-gray-500 mt-2 p-2"
+              placeholder="Your name"
+            />
+          </div>
+          <div>
+            <label>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full rounded-md border border-gray-500 mt-2 p-2"
+              placeholder="Your password"
+            />
+          </div>
+          {/* Existing email input and form submission */}
+          <div>
+            <label>Email address or phone number</label>
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full rounded-md border border-gray-500 mt-2 p-2"
+              placeholder="youremail@email.com or 9889755607"
+            />
+          </div>
+          <button
+            type="submit"
+            className="relative mt-4 p-2 rounded-md flex w-full p-2 text-white bg-blue-800"
+          >
+            <span className=" mx-auto font-medium">Continue</span>
+            <IoIosArrowRoundForward
+              size={26}
+              className="text-white absolute left-64"
+            />
+          </button>
+          
               <div className="mt-4 border-border-red-500">
                 {error && <span className="text-red-600 font-bold">{error}</span>}
               </div>

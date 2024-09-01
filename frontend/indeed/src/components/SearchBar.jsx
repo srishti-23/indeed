@@ -1,33 +1,32 @@
 import React, { useState } from "react";
 import { IoMdSearch } from "react-icons/io";
 import { FaLocationDot } from "react-icons/fa6";
-//Searchbar component for searching the jobs
+
 const SearchBar = ({ onSearchResults }) => {
   const [query, setQuery] = useState("");
-  const[locQuery,setLocQuery]=useState("")
+  const [locQuery, setLocQuery] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const handleSearch = async () => { //defining function to handle the search
-    if (query.trim() === ""  && locQuery.trim()==="") { //checking if the query is empty or not
+  const handleSearch = async () => {
+    if (query.trim() === "" && locQuery.trim() === "") {
       alert("Please enter a search query");
       return;
     }
-   
+
     setLoading(true);
     setError(null);
-    const url = `http://api.adzuna.com/v1/api/jobs/gb/search/1?app_id=7ba37328&app_key=5cd06c669e15639b874c09749126949e&results_per_page=20&what=${encodeURIComponent(
-      query+locQuery
-    )}&content-type=application/json`;//url for the api
+
+    // Update the URL to point to your backend search endpoint
+    const url = `http://localhost:8080/api/search?title=${encodeURIComponent(query)}&location=${encodeURIComponent(locQuery)}`;
 
     try {
-      const response = await fetch(url);
+      const response = await fetch(url); // Make sure this fetches from your backend
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
       const data = await response.json();
-      console.log(data)
-      onSearchResults(data.results); // Pass results up to the parent component
+      onSearchResults(data); // Pass results up to the parent component
     } catch (error) {
       setError("Error fetching data. Please try again later.");
       console.error(error);
@@ -37,15 +36,15 @@ const SearchBar = ({ onSearchResults }) => {
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === "Enter") { //to present the search jobs even if the enter key is pressed
+    if (event.key === "Enter") {
       handleSearch();
     }
   };
 
   return (
     <>
-      <div className="flex flex-col tablet:flex-row items-center mb-4 border border-gray-500 rounded-md overflow-hidden shadow-md  w-full max-w-4xl mt-[-7%]">
-        <div className="relative w-full tablet:w-auto flex-grow">
+      <div className="flex flex-col tablet:flex-row items-center mb-4 laptop:border laptop:border-gray-500 rounded-md overflow-hidden shadow-md  w-full max-w-4xl mt-[-7%]">
+        <div className="relative w-full tablet:w-auto flex-grow laptop:border-none tablet:border tablet:border-gray-500 ">
           <IoMdSearch
             size={24}
             className="absolute left-4 top-1.5 text-gray-800 mt-1"
@@ -59,10 +58,10 @@ const SearchBar = ({ onSearchResults }) => {
             className="p-2 outline-none pl-14 w-full tablet:w-70 border-b tablet:border-b-0 tablet:border-r border-gray-200 mt-1 text-base text-gray-1000"
           />
         </div>
-        <div className="relative w-auto tablet:w-auto flex-grow">
+        <div className="relative w-full tablet:w-auto flex-grow ">
           <FaLocationDot
             size={22}
-            className="absolute left-3 top-1.2 text-gray-800 mt-2"
+            className="absolute left-4 top-1.5 text-gray-800 mt-1"
           />
           <input
             type="text"
@@ -70,7 +69,7 @@ const SearchBar = ({ onSearchResults }) => {
             onChange={(e) => setLocQuery(e.target.value)}
             onKeyDown={handleKeyPress}
             placeholder="City, state, zip code, or 'remote'"
-            className="p-2 pl-14 w-full md:w-70 mt-1 text-base text-gray-1000 outline-none"
+            className="p-2 pl-14 w-full tablet:w-full mt-1 text-base text-gray-1000 outline-none ml-0"
           />
         </div>
         <button

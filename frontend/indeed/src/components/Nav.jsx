@@ -27,7 +27,7 @@ const Nav = () => {
   return (
     <>
       {/* Desktop Navigation */}
-      <div className="desktop-nav hidden laptop:flex justify-between items-center p-4 text-base z-10">
+      <nav className="desktop-nav hidden laptop:flex justify-between items-center p-4 text-base z-10">
         {/* Left Section: Logo + Links */}
         <div className="flex items-center list-none gap-4 absolute top-0 left-40 left-section">
           <NavLink to="/home" className="hover-underline mt-6">
@@ -86,7 +86,7 @@ const Nav = () => {
         <li className="font-thin tracking-normal list-none">
           Employers/Post job
         </li>
-      </div>
+      </nav>
 
       {/* Hamburger Icon 
       To be displayed for smaller screens */}
