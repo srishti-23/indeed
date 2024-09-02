@@ -10,15 +10,15 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
-  const { login } = useAuth(); // Get login function from AuthContext
+  const { login } = useAuth();
 
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!isLogging) {
       setisLogging(true);
       try {
-        await login({ email, password }); // Call the login function from AuthContext
-        navigate("/home"); // Navigate to home after successful login
+        await login({ email, password }); 
+        navigate("/home"); 
       } catch (error) {
         setErrorMessage(
           error.message || "An error occurred. Please try again."
