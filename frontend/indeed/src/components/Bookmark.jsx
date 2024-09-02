@@ -1,9 +1,29 @@
 import React, { useContext } from "react";
 import { BookmarksContext } from "../contexts/BookmarkContext";
+import axios from 'axios';
 
-//Bookmark component to store the jobs bookmark by the user that will appear under my jobs section
 function Bookmark() {
-  const { state, dispatch } = useContext(BookmarksContext);//using useContext hook
+  const { state, dispatch } = useContext(BookmarksContext);
+
+  const handleToggleBookmark = async (job) => {
+    const isBookmarked = state.bookmarks.some(
+      (bookmark) => bookmark.id === job.id
+    );
+
+    try {
+      if (isBookmarked) {
+        // Remove bookmark
+        await axios.delete(`http://localhost:8080/api/bookmarks/${job.id}`);
+        dispatch({ type: "REMOVE_BOOKMARK", payload: job });
+      } else {
+        // Add bookmark
+        const response = await axios.post("http://localhost:8080/api/bookmarks", job);
+        dispatch({ type: "ADD_BOOKMARK", payload: response.data });
+      }
+    } catch (error) {
+      console.error("Failed to toggle bookmark:", error);
+    }
+  };
 
   return (
     <div className="p-8">
@@ -19,12 +39,13 @@ function Bookmark() {
               {job.company.display_name}
             </p>
             <p className="text-sm text-gray-600">{job.location.display_name}</p>
-            {/* To remove the bookmarked job */}
             <button
-              onClick={() => dispatch({ type: "TOGGLE_BOOKMARK", payload: job })}
+              onClick={() => handleToggleBookmark(job)}
               className="mt-2 p-2 bg-gray-200 text-gray-600 rounded-md"
             >
-              Remove Bookmark
+              {state.bookmarks.some(bookmark => bookmark.id === job.id)
+                ? "Remove Bookmark"
+                : "Add Bookmark"}
             </button>
           </div>
         ))

@@ -6,6 +6,7 @@ import { doSignInWithGoogle } from "../firebase/auth.js";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { FcGoogle } from "react-icons/fc";
 import axios from 'axios';
+import {Link }from "react-router-dom"
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -143,6 +144,7 @@ const Signup = () => {
               placeholder="youremail@email.com or 9889755607"
             />
           </div>
+         
           <button
             type="submit"
             className="relative mt-4 p-2 rounded-md flex w-full p-2 text-white bg-blue-800"
@@ -153,6 +155,13 @@ const Signup = () => {
               className="text-white absolute left-64"
             />
           </button>
+          <p className="mt-4 ">
+              Already registered? 
+              <Link to="/login">
+              <span className="underline text-blue-400 cursor-pointer">Login</span>
+              </Link>
+              </p>
+              
           
               <div className="mt-4 border-border-red-500">
                 {error && <span className="text-red-600 font-bold">{error}</span>}
