@@ -35,6 +35,39 @@ const getAllUsers=async(req,res)=>{
     }
 }
 
+// const login = async (req, res) => {
+//     try {
+//         const { email, password } = req.body;
+//         const user = await User.findOne({ email });
+
+//         if (!user) {
+//             return res.status(400).send({ message: "Invalid credentials" });
+//         }
+
+//         const passwordMatch = await user.matchPassword(password);
+//         if (!passwordMatch) {
+//             return res.status(400).send({ message: "Invalid credentials" });
+//         }
+
+//         const token = createToken({ id: user._id });
+//         console.log("Generated Token:", token); // Debugging log
+        
+//         res.cookie("authToken", token, {
+//             path: "/",
+//             expires: new Date(Date.now() + 3600000), // 1 hour
+//             secure: process.env.NODE_ENV === "production", // Use true if using HTTPS
+//             httpOnly: true,
+//             sameSite: "Lax"
+//           });
+          
+
+//         console.log("Token set in cookie:", token); // Debugging log
+
+//         return res.status(200).send({ message: "User logged in successfully", token });
+//     } catch (error) {
+//         return res.status(500).send({ message: "Error in signing in user", error: error.message });
+//     }
+// };
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -51,23 +84,30 @@ const login = async (req, res) => {
 
         const token = createToken({ id: user._id });
         console.log("Generated Token:", token); // Debugging log
-        
+
         res.cookie("authToken", token, {
             path: "/",
             expires: new Date(Date.now() + 3600000), // 1 hour
-            secure: false, // Use true if using HTTPS
+            secure: process.env.NODE_ENV === "production", // Use true if using HTTPS
             httpOnly: true,
             sameSite: "Lax"
         });
 
         console.log("Token set in cookie:", token); // Debugging log
 
-        return res.status(200).send({ message: "User logged in successfully", token });
+        
+        const userObj = user.toObject();
+        delete userObj.password;
+
+        return res.status(200).send({ 
+            message: "User logged in successfully", 
+            token, 
+            user: userObj 
+        });
     } catch (error) {
         return res.status(500).send({ message: "Error in signing in user", error: error.message });
     }
 };
-
 
 const logOut=async(req,res)=>{
     res.clearCookie("authToken")
@@ -88,5 +128,18 @@ const deleteUser=async(req,res)=>{
 
     }
 }
+const checkUserLoggedIn = async (req, res) => {
+    console.log(req.user)
+    const{id}=req.params
+    const user=await User.findById(id)
+    try {
+        if (user) {
+            return res.status(200).send({ user: req.user });
+        }
+        return res.status(401).send({ message: "Unauthorized" });
+    } catch (error) {
+        return res.status(500).send({ message: "Error checking user status", error: error.message });
+    }
+};
 
-export { register, login ,logOut,deleteUser,getAllUsers}
+export { register, login ,logOut,deleteUser,getAllUsers,checkUserLoggedIn}
