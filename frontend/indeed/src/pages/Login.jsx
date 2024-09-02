@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import logo from "../assets/logo.svg";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext"
+import { useAuth } from "../contexts/AuthContext";
 
 const Login = () => {
   const [password, setPassword] = useState("");
@@ -10,15 +10,16 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
-  const { login } = useAuth(); // Get login function from AuthContext
+  const { login, currentUser } = useAuth(); // Assuming currentUser holds logged-in user info
 
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!isLogging) {
       setisLogging(true);
       try {
-        await login({ email, password }); // Call the login function from AuthContext
-        navigate("/home"); // Navigate to home after successful login
+        await login({ email, password });
+        console.log(currentUser); // Debugging line to check if the user is updated
+        navigate("/home");
       } catch (error) {
         setErrorMessage(
           error.message || "An error occurred. Please try again."
@@ -72,5 +73,3 @@ const Login = () => {
 };
 
 export default Login;
-
-
