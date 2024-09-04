@@ -6,11 +6,13 @@ function Bookmark() {
   const { state, dispatch } = useContext(BookmarksContext);
 
   const handleToggleBookmark = async (job) => {
+    console.log(job);
     const isBookmarked = state.bookmarks.some(
       (bookmark) => bookmark.id === job.id
     );
 
     try {
+      
       if (isBookmarked) {
         // Remove bookmark
         await axios.delete(`http://localhost:8080/api/bookmarks/${job.id}`);
