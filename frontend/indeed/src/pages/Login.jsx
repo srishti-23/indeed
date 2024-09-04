@@ -10,16 +10,15 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
-  const { login, currentUser } = useAuth(); // Assuming currentUser holds logged-in user info
+  const { login } = useAuth();
 
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!isLogging) {
       setisLogging(true);
       try {
-        await login({ email, password });
-        console.log(currentUser); // Debugging line to check if the user is updated
-        navigate("/home");
+        await login({ email, password }); 
+        navigate("/home"); 
       } catch (error) {
         setErrorMessage(
           error.message || "An error occurred. Please try again."

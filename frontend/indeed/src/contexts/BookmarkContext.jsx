@@ -19,10 +19,29 @@ function reducer(state, action) {
         ),
       };
 
+    case "TOGGLE_BOOKMARK":
+      const isBookmarked = state.bookmarks.some(
+        (bookmark) => bookmark.id === action.payload.id
+      );
+      if (isBookmarked) {
+        return {
+          ...state,
+          bookmarks: state.bookmarks.filter(
+            (bookmark) => bookmark.id !== action.payload.id
+          ),
+        };
+      } else {
+        return {
+          ...state,
+          bookmarks: [...state.bookmarks, action.payload],
+        };
+      }
+
     default:
       return state;
   }
 }
+
 
 export const BookmarksContext = createContext();
 
@@ -33,7 +52,9 @@ export const BookmarksProvider = ({ children }) => {
   useEffect(() => {
     async function fetchBookmarks() {
       try {
-        const response = await axios.get("http://localhost:8080/api/bookmarks");
+        const response = await axios.get('http://localhost:8080/api/bookmark/details', { withCredentials: true });
+        console.log('response.data',response.data);
+        
         dispatch({ type: "SET_BOOKMARKS", payload: response.data });
       } catch (error) {
         console.error("Failed to fetch bookmarks:", error);
