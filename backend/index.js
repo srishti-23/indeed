@@ -18,7 +18,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: "https://indeed-app.onrender.com", 
+    origin: "https://backend--indeed-app.netlify.app", 
     credentials: true
   }));
   
