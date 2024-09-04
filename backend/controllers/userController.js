@@ -88,7 +88,7 @@ const login = async (req, res) => {
         res.cookie("authToken", token, {
             path: "/",
             expires: new Date(Date.now() + 3600000), // 1 hour
-            secure: process.env.NODE_ENV === "production", // Use true if using HTTPS
+            // secure: process.env.NODE_ENV === "production", // Use true if using HTTPS
             httpOnly: true,
             sameSite: "Lax"
         });
