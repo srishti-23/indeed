@@ -52,7 +52,7 @@ export const BookmarksProvider = ({ children }) => {
   useEffect(() => {
     async function fetchBookmarks() {
       try {
-        const response = await axios.get('http://localhost:8080/api/bookmark/details', { withCredentials: true });
+        const response = await axios.get('https://indeed-app.onrender.com/api/bookmark/details', { withCredentials: true });
         console.log('response.data',response.data);
         
         dispatch({ type: "SET_BOOKMARKS", payload: response.data });

@@ -13,11 +13,11 @@ function Bookmark() {
     try {
       if (isBookmarked) {
         // Remove bookmark
-        await axios.delete(`http://localhost:8080/api/bookmark/${job._id}`);
+        await axios.delete(`https://indeed-app.onrender.com/api/bookmark/${job._id}`);
         dispatch({ type: "REMOVE_BOOKMARK", payload: job });
       } else {
         // Add bookmark
-        const response = await axios.post("http://localhost:8080/api/bookmark", job);
+        const response = await axios.post("https://indeed-app.onrender.com/api/bookmark", job);
         dispatch({ type: "ADD_BOOKMARK", payload: response.data });
       }
     } catch (error) {

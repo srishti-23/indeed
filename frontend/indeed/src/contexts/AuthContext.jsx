@@ -17,7 +17,7 @@ export function AuthProvider({ children }) {
 
     if (token) {
       const user = JSON.parse(localStorage.getItem("user"));
-      fetch(`http://localhost:8080/api/user/status/${user._id}`, {
+      fetch(`https://indeed-app.onrender.com/api/user/status/${user._id}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -43,7 +43,7 @@ export function AuthProvider({ children }) {
 
   const login = async (credentials) => {
     try {
-      const response = await fetch("http://localhost:8080/api/user/login", {
+      const response = await fetch("https://indeed-app.onrender.com/api/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
