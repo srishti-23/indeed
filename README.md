@@ -3,8 +3,8 @@
 This is a project that aims to create a clone of indeed
 
 ## Deployment
+https://backend--indeed-app.netlify.app/
 https://indeedproject.netlify.app/
-
 
 
 ## Tech Stack
