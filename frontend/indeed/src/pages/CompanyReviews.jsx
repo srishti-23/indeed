@@ -12,7 +12,7 @@ const CompanyReviews = () => {
 
   useEffect(() => {
     fetch(
-      `http://api.adzuna.com/v1/api/jobs/gb/top_companies?app_id=7ba37328&app_key=5cd06c669e15639b874c09749126949e&what=cook&content-type=application/json`
+      `https://api.adzuna.com/v1/api/jobs/gb/top_companies?app_id=7ba37328&app_key=5cd06c669e15639b874c09749126949e&what=cook&content-type=application/json`
     )
       .then((response) => response.json())
       .then((data) => {
