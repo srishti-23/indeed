@@ -18,7 +18,7 @@ const SearchBar = ({ onSearchResults }) => {
     setError(null);
 
     // Update the URL to point to your backend search endpoint
-    const url = `http://localhost:8080/api/search?title=${encodeURIComponent(query)}&location=${encodeURIComponent(locQuery)}`;
+    const url = `https://indeed-vmus.onrender.com/api/search?title=${encodeURIComponent(query)}&location=${encodeURIComponent(locQuery)}`;
 
     try {
       const response = await fetch(url); // Make sure this fetches from your backend
