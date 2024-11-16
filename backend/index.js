@@ -19,6 +19,9 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
     origin: "http://localhost:5173", 
+    "https://indeed1.netlify.app/",
+     "https://api.adzuna.com/v1/api/jobs/gb/top_companies?app_id=7ba37328&app_key=5cd06c669e15639b874c09749126949e&what=cook&content-type=application/json
+    
     methods: 'GET,POST,PUT,PATCH,DELETE',
     credentials: true
   }));
