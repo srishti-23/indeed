@@ -22,5 +22,8 @@
     "mongodb": "^6.8.0",
     "mongoose": "^8.5.3",
     "nodemailer": "^6.9.14"
+  },
+  "devDependencies": {
+    "vite": "^4.4.9" 
   }
 }
