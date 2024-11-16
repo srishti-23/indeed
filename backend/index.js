@@ -19,11 +19,11 @@ app.use(express.json());
 app.use(cookieParser());
 const allowedOrigins = [
     "http://localhost:5173",
-    "https://indeed1.netlify.app/",
-    "https://api.adzuna.com/v1/api/jobs/gb/top_companies?app_id=7ba37328&app_key=5cd06c669e15639b874c09749126949e&what=cook&content-type=application/json"
+    "https://indeed1.netlify.app",
 ];
 app.use(cors({
     origin: (origin, callback) => {
+        // Allow requests with no origin (like from Postman) or matching origins
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
@@ -33,6 +33,15 @@ app.use(cors({
     methods: 'GET,POST,PUT,PATCH,DELETE',
     credentials: true
 }));
+
+// Explicitly handle preflight OPTIONS requests
+app.options("*", (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.status(200).send();
+});
+
   
 
 //Routes
