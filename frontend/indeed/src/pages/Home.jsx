@@ -13,21 +13,79 @@ function Home() {
   const [activeTab, setActiveTab] = useState("feed");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [appliedJobs, setAppliedJobs] = useState([]); // State for applied jobs
 
   const { state, dispatch } = useContext(BookmarksContext);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
+  // Fetch job details on component mount
   useEffect(() => {
-    fetch(`http://localhost:8080/api/job/details`)
-      .then((response) => response.json())
-      .then((data) => {
+    const fetchJobs = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/api/job/details`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch jobs");
+        }
+
+        const data = await response.json();
         setJobs(data);
         setSelectedJob(data[0]);
-      })
-      .catch((error) => console.error("Error fetching jobs:", error))
-      .finally(() => setLoading(false));
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchJobs();
   }, []);
+
+  // Fetch applied jobs when currentUser changes
+  useEffect(() => {
+    if (currentUser) {
+      const fetchAppliedJobs = async () => {
+        try {
+          const token = localStorage.getItem("authToken");
+          const response = await fetch(
+            "http://localhost:8080/api/apply/details",
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              credentials: "include",
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to fetch applied jobs");
+          }
+
+          const data = await response.json();
+          // Extract job IDs from the applied data
+          const jobIds = data.flatMap((apply) =>
+            apply.jobs.map((job) => job._id.toString())
+          );
+          setAppliedJobs(jobIds);
+        } catch (error) {
+          console.error("Error fetching applied jobs:", error);
+        }
+      };
+
+      fetchAppliedJobs();
+    } else {
+      setAppliedJobs([]); // Reset appliedJobs if no user is logged in
+    }
+  }, [currentUser]);
 
   const handleJobClick = (job) => {
     setSelectedJob(job);
@@ -52,13 +110,29 @@ function Home() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to apply for job");
+        const errorData = await response.json();
+        console.error("Server response:", errorData);
+        throw new Error(errorData.message || "Failed to apply for job");
       }
+      //from here i added to see if not required refresh
+      const newApplication = await response.json();
+      setAppliedJobs((prev) => [...prev, jobId])
+      // Update context state to include the newly applied job
+      dispatch({
+        type: "SET_APPLIED_JOBS",
+        // payload: [...state.applied, newApplication],
+        payload: [...(state.applied || []), newApplication],
+      });
+
+      console.log("Job applied successfully:", newApplication);
+      //to here
 
       alert("You have successfully applied for the job.");
+  
+      // setAppliedJobs((prev) => [...prev, jobId]); // Update appliedJobs state
     } catch (error) {
       console.error("Error applying for job:", error);
-      alert("Error applying for job. Please try again.");
+      alert(error.message || "Error applying for job. Please try again.");
     }
   };
 
@@ -86,19 +160,21 @@ function Home() {
 
       <div className="flex justify-center border-b border-gray-200 mt-4 mb-8">
         <button
-          className={`p-2 px-4 ${activeTab === "feed"
+          className={`p-2 px-4 ${
+            activeTab === "feed"
               ? "border-b-2 border-blue-800 font-semibold"
               : "text-gray-600"
-            }`}
+          }`}
           onClick={() => setActiveTab("feed")}
         >
           Jobs For You
         </button>
         <button
-          className={`p-2 px-4 ${activeTab === "search"
+          className={`p-2 px-4 ${
+            activeTab === "search"
               ? "border-b-2 border-blue-800 font-semibold"
               : "text-gray-600"
-            }`}
+          }`}
           onClick={() => setActiveTab("search")}
         >
           Job Search
@@ -111,34 +187,32 @@ function Home() {
             <p>Loading jobs...</p>
           ) : (
             <div className="w-[86%] laptop:max-w-md ml-16 laptop:ml-0">
-              {(searchResults.length > 0 ? searchResults : jobs).map(
-                (job, index) => (
-                  <div
-                    key={index}
-                    onClick={() => handleJobClick(job)}
-                    className="bg-white p-4 border border-gray-200 rounded-lg shadow-sm mb-4 cursor-pointer"
-                  >
-                    <h2 className="text-lg font-bold text-gray-800">
-                      {job.title}
-                    </h2>
-                    <p className="text-sm text-gray-600 li-none">
-                      {job.company.name}
-                    </p>
-                    <p className="text-sm text-gray-600">{job.location}</p>
-                    <ul className="list-none list-inside text-sm text-gray-700 mt-2">
-                      {job.jobDescription
-                        .split(". ")
-                        .slice(0, 2)
-                        .map((desc, i) => (
-                          <li key={i}>{desc}</li>
-                        ))}
-                    </ul>
-                    <p className="text-xs text-gray-500 mt-4">
-                      Active {new Date(job.createdAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                )
-              )}
+              {(searchResults.length > 0 ? searchResults : jobs).map((job) => (
+                <div
+                  key={job._id} // Use job._id as the key for better performance and consistency
+                  onClick={() => handleJobClick(job)}
+                  className="bg-white p-4 border border-gray-200 rounded-lg shadow-sm mb-4 cursor-pointer"
+                >
+                  <h2 className="text-lg font-bold text-gray-800">
+                    {job.title}
+                  </h2>
+                  <p className="text-sm text-gray-600 li-none">
+                    {job.company.name}
+                  </p>
+                  <p className="text-sm text-gray-600">{job.location}</p>
+                  <ul className="list-none list-inside text-sm text-gray-700 mt-2">
+                    {job.jobDescription
+                      .split(". ")
+                      .slice(0, 2)
+                      .map((desc, i) => (
+                        <li key={i}>{desc}</li>
+                      ))}
+                  </ul>
+                  <p className="text-xs text-gray-500 mt-4">
+                    Active {new Date(job.createdAt).toLocaleDateString()}
+                  </p>
+                </div>
+              ))}
             </div>
           )}
         </div>
@@ -154,19 +228,41 @@ function Home() {
               </p>
               <p className="text-sm text-gray-600">{selectedJob.location}</p>
               <div className="mt-4 flex items-center space-x-2">
+                {/* Apply Button */}
                 <button
                   onClick={() => handleApplyClick(selectedJob._id)}
-                  className="p-2 bg-blue-800 text-white rounded-md"
+                  className={`p-2 rounded-md ${
+                    appliedJobs.includes(selectedJob._id)
+                      ? "bg-gray-400 text-white cursor-not-allowed"
+                      : "bg-blue-800 text-white"
+                  }`}
+                  disabled={appliedJobs.includes(selectedJob._id)}
                 >
-                  Apply Now
+                  {appliedJobs.includes(selectedJob._id)
+                    ? "Applied"
+                    : "Apply Now"}
                 </button>
+                {/* <button
+                  onClick={() => handleApplyClick(selectedJob._id)}
+                  className={`p-2 rounded-md ${
+                    state.applied?.includes(selectedJob._id)
+                      ? "bg-gray-400 text-white cursor-not-allowed"
+                      : "bg-blue-800 text-white"
+                  }`}
+                  disabled={state.applied?.includes(selectedJob._id)}
+                >
+                  {state.applied?.includes(selectedJob._id)
+                    ? "Applied"
+                    : "Apply Now"}
+                </button> */}
 
+                {/* Bookmark Button */}
                 <button
                   onClick={() => toggleBookmark(selectedJob)}
                   className="p-2 bg-gray-200 text-gray-600 rounded-md"
                 >
                   {state.bookmarks.some(
-                    (bookmark) => bookmark._id === selectedJob._id // Ensure this line checks the correct property
+                    (bookmark) => bookmark._id === selectedJob._id
                   ) ? (
                     <BsSlashCircle size={20} />
                   ) : (
@@ -174,6 +270,7 @@ function Home() {
                   )}
                 </button>
 
+                {/* View Bookmarks Link */}
                 <Link to="/bookmark">
                   <button className="ml-2 p-2 bg-gray-200 text-gray-600 rounded-md">
                     View Bookmarks

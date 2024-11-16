@@ -19,6 +19,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
     origin: "http://localhost:5173", 
+    methods: 'GET,POST,PUT,PATCH,DELETE',
     credentials: true
   }));
   
@@ -37,7 +38,7 @@ app.get("/", (req, res) => {
     res.status(200).send("Welcome to job portal");
 });
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
     connectDb();
     console.log(`Server listening at ${PORT}`);

@@ -3,10 +3,11 @@ import { verifyToken } from "../utilities/jwt.js";
 
 const authentication = async (req, res, next) => {
     try {
-        const token = req.cookies.authToken;
-        if (!token) {
-            return res.status(401).send({ message: "Unauthorized user" });
-        }
+        const token = req.headers.authorization?.split(' ')[1];
+        if (!token) return res.status(401).json({ message: "Token required" });
+        // if (!token) {
+        //     return res.status(401).send({ message: "Unauthorized user" });
+        // }
 
         const decoded = verifyToken(token);
         console.log("Decoded", decoded);

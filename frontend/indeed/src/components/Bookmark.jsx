@@ -1,13 +1,59 @@
 import React, { useContext } from "react";
 import { BookmarksContext } from "../contexts/BookmarkContext";
-import axios from 'axios';
+import axios from "axios";
 
 function Bookmark() {
-  const { state, dispatch } = useContext(BookmarksContext);
+  const { state,dispatch } = useContext(BookmarksContext);
+  // const handleToggleBookmark = async (job) => {
+  //   const isBookmarked = state.bookmarks.some(
+  //     (bookmark) => bookmark._id === job._id
+  //   );
+  
+  //   try {
+  //     if (isBookmarked) {
+  //       // Remove bookmark
+  //       await axios.delete(`http://localhost:8080/api/bookmark/${job._id}`);
+  //       dispatch({ type: "REMOVE_BOOKMARK", payload: job });
+  //     } else {
+  //       // Add bookmark
+  //       const response = await axios.post(
+  //         "http://localhost:8080/api/bookmark",
+  //         job
+  //       );
+  //       dispatch({ type: "ADD_BOOKMARK", payload: response.data });
+  //     }
+  //   } catch (error) {
+  //     console.error("Failed to toggle bookmark:", error);
+  //   }
+  // };
+  
+  //3
+  // const handleToggleBookmark = async (job) => {
+  //   const isBookmarked = state.bookmarks.some(
+  //     (bookmark) => bookmark._id === job._id
+  //   );
+  
+  //   try {
+  //     if (isBookmarked) {
+  //       await axios.delete(`http://localhost:8080/api/bookmark/${job._id}`);
+  //       dispatch({ type: "REMOVE_BOOKMARK", payload: job });
+  //     } else {
+  //       const response = await axios.post(
+  //         "http://localhost:8080/api/bookmark",
+  //         job
+  //       );
+  //       dispatch({ type: "ADD_BOOKMARK", payload: response.data });
+  //     }
+  //   } catch (error) {
+  //     console.error("Error toggling bookmark:", error);
+  //   }
+  // };
+  
 
+//2 this is working fine 
   const handleToggleBookmark = async (job) => {
     const isBookmarked = state.bookmarks.some(
-      (bookmark) => bookmark._id === job._id // Ensure this line checks the correct property
+      (bookmark) => bookmark._id === job._id
     );
 
     try {
@@ -17,13 +63,44 @@ function Bookmark() {
         dispatch({ type: "REMOVE_BOOKMARK", payload: job });
       } else {
         // Add bookmark
-        const response = await axios.post("http://localhost:8080/api/bookmark", job);
+        // const response = await axios.post("http://localhost:8080/api/bookmark", job);
+        // console.log("bookmarkedjob",response.data)
+        // dispatch({ type: "ADD_BOOKMARK", payload: response.data });
+        const response = await axios.post(
+          "http://localhost:8080/api/bookmark",
+          job
+        );
+        console.log(
+          "Bookmark response:",
+          response.data,
+          "Current bookmarks:",
+          state.bookmarks
+        );
         dispatch({ type: "ADD_BOOKMARK", payload: response.data });
       }
     } catch (error) {
       console.error("Failed to toggle bookmark:", error);
     }
   };
+  //Initial
+  // const handleToggleBookmark = async (job) => {
+  //   console.log("Job data:", job); // Debugging line
+  //   const isBookmarked = state.bookmarks.some((bookmark) => bookmark._id === job._id);
+
+  //   try {
+  //     if (isBookmarked) {
+  //       // Remove bookmark
+  //       await axios.delete(`http://localhost:8080/api/bookmark/${job._id}`);
+  //       dispatch({ type: "REMOVE_BOOKMARK", payload: job });
+  //     } else {
+  //       // Add bookmark
+  //       const response = await axios.post("http://localhost:8080/api/bookmark", { jobId: job._id });
+  //       dispatch({ type: "ADD_BOOKMARK", payload: response.data });
+  //     }
+  //   } catch (error) {
+  //     console.error("Failed to toggle bookmark:", error);
+  //   }
+  // };
 
   return (
     <div className="p-8">

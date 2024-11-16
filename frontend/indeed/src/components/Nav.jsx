@@ -190,7 +190,7 @@ const Nav = () => {
           <NavLink to="/salaryGuide" className="hover-underline mt-6">
             Salary guide
           </NavLink>
-          <NavLink to="/bookmark" className="hover-underline mt-6">
+          <NavLink to="/myjobs" className="hover-underline mt-6">
             My Jobs
           </NavLink>
         </div>
@@ -286,7 +286,7 @@ const Nav = () => {
             Profile
           </NavLink>
           <NavLink
-            to="/bookmark"
+            to="/myjobs"
             className="list-none mx-auto my-4"
             onClick={() => setNav(false)}
           >

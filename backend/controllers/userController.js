@@ -8,6 +8,7 @@ const register = async (req, res) => {
         const user = await User.create({
             name, email, password
         })
+        console.log(user)
 
         const option={
             from:process.env.EMAIL,
@@ -35,39 +36,7 @@ const getAllUsers=async(req,res)=>{
     }
 }
 
-// const login = async (req, res) => {
-//     try {
-//         const { email, password } = req.body;
-//         const user = await User.findOne({ email });
 
-//         if (!user) {
-//             return res.status(400).send({ message: "Invalid credentials" });
-//         }
-
-//         const passwordMatch = await user.matchPassword(password);
-//         if (!passwordMatch) {
-//             return res.status(400).send({ message: "Invalid credentials" });
-//         }
-
-//         const token = createToken({ id: user._id });
-//         console.log("Generated Token:", token); // Debugging log
-        
-//         res.cookie("authToken", token, {
-//             path: "/",
-//             expires: new Date(Date.now() + 3600000), // 1 hour
-//             secure: process.env.NODE_ENV === "production", // Use true if using HTTPS
-//             httpOnly: true,
-//             sameSite: "Lax"
-//           });
-          
-
-//         console.log("Token set in cookie:", token); // Debugging log
-
-//         return res.status(200).send({ message: "User logged in successfully", token });
-//     } catch (error) {
-//         return res.status(500).send({ message: "Error in signing in user", error: error.message });
-//     }
-// };
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;

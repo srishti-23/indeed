@@ -16,8 +16,11 @@ export function AuthProvider({ children }) {
     const token = localStorage.getItem("authToken");
 
     if (token) {
+      
       const user = JSON.parse(localStorage.getItem("user"));
-      fetch(`http://localhost:8080/api/user/status/${user._id}`, {
+      const userId = user ? user._id : null;
+
+      fetch(`http://localhost:8080/api/user/status/${userId}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

@@ -61,12 +61,18 @@ import Login from "./pages/Login";
 import { AuthProvider } from "./contexts/AuthContext";
 import Bookmark from "./components/Bookmark";
 import Notification from "./pages/Notification";
-
+import MyJobs from "./components/MyJobs";
+import { BookmarksProvider } from "./contexts/BookmarkContext.jsx"
+import { MyJobsContextProvider } from './contexts/MyjobsContext.jsx'
 const App = () => {
   return (
     <Router>
       <AuthProvider>
+      <BookmarksProvider>
+      <MyJobsContextProvider>
         <AppContent />
+        </MyJobsContextProvider>
+        </BookmarksProvider>
       </AuthProvider>
     </Router>
   );
@@ -92,6 +98,7 @@ const AppContent = () => {
         <Route path="/salaryGuide" element={<SalaryGuide />} />
         <Route path="/notification" element={<Notification />} />
         <Route path="/bookmark" element={<Bookmark />} />
+        <Route path="/myjobs" element={<MyJobs />} />
       </Routes>
       {shouldShowHeaderFooter && <Footer />}
     </>
