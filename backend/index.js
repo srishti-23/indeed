@@ -39,7 +39,7 @@ app.get("/", (req, res) => {
 });
 
 const PORT = process.env.PORT || 8000;
-app.listen(PORT,0.0.0.0, () => {
+app.listen(PORT, () => {
     connectDb();
     console.log(`Server listening at ${PORT}`);
 });
