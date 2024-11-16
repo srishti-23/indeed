@@ -23,7 +23,7 @@ function Home() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/job/details`, {
+        const response = await fetch(`https://indeed-vmus.onrender.com/api/job/details`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -55,7 +55,7 @@ function Home() {
         try {
           const token = localStorage.getItem("authToken");
           const response = await fetch(
-            "http://localhost:8080/api/apply/details",
+            "https://indeed-vmus.onrender.com/api/apply/details",
             {
               method: "GET",
               headers: {
@@ -100,7 +100,7 @@ function Home() {
 
     try {
       const token = localStorage.getItem("authToken");
-      const response = await fetch(`http://localhost:8080/api/apply/${jobId}`, {
+      const response = await fetch(`https://indeed-vmus.onrender.com/api/apply/${jobId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -114,7 +114,7 @@ function Home() {
         console.error("Server response:", errorData);
         throw new Error(errorData.message || "Failed to apply for job");
       }
-      //from here i added to see if not required refresh
+      
       const newApplication = await response.json();
       setAppliedJobs((prev) => [...prev, jobId])
       // Update context state to include the newly applied job
@@ -125,11 +125,10 @@ function Home() {
       });
 
       console.log("Job applied successfully:", newApplication);
-      //to here
-
+      
       alert("You have successfully applied for the job.");
   
-      // setAppliedJobs((prev) => [...prev, jobId]); // Update appliedJobs state
+      
     } catch (error) {
       console.error("Error applying for job:", error);
       alert(error.message || "Error applying for job. Please try again.");
@@ -242,21 +241,7 @@ function Home() {
                     ? "Applied"
                     : "Apply Now"}
                 </button>
-                {/* <button
-                  onClick={() => handleApplyClick(selectedJob._id)}
-                  className={`p-2 rounded-md ${
-                    state.applied?.includes(selectedJob._id)
-                      ? "bg-gray-400 text-white cursor-not-allowed"
-                      : "bg-blue-800 text-white"
-                  }`}
-                  disabled={state.applied?.includes(selectedJob._id)}
-                >
-                  {state.applied?.includes(selectedJob._id)
-                    ? "Applied"
-                    : "Apply Now"}
-                </button> */}
-
-                {/* Bookmark Button */}
+               
                 <button
                   onClick={() => toggleBookmark(selectedJob)}
                   className="p-2 bg-gray-200 text-gray-600 rounded-md"
