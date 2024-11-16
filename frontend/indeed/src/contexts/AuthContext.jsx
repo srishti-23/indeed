@@ -20,7 +20,7 @@ export function AuthProvider({ children }) {
       const user = JSON.parse(localStorage.getItem("user"));
       const userId = user ? user._id : null;
 
-      fetch(`http://localhost:8080/api/user/status/${userId}`, {
+      fetch(`https://indeed-vmus.onrender.com/api/user/status/${userId}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -46,7 +46,7 @@ export function AuthProvider({ children }) {
 
   const login = async (credentials) => {
     try {
-      const response = await fetch("http://localhost:8080/api/user/login", {
+      const response = await fetch("https://indeed-vmus.onrender.com/api/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
