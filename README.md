@@ -3,7 +3,7 @@
 This is a project that aims to create a clone of indeed
 
 ## Deployment
-https://backend--indeed-app.netlify.app/<br>
+https://indeed1.netlify.app/<br>
 https://indeedproject.netlify.app/
 
 
@@ -11,6 +11,8 @@ https://indeedproject.netlify.app/
 - React js:  A javascript library used for developing complex User interfaces
 - TailwindCSS:For designing the website tailwind css is used
 - firebase:it is used for authentication to manage user login state
+- MongoDB:Database to store data
+- JWT-used for authentication
   
 ## About The Project (Indeed)
 
